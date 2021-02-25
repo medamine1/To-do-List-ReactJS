@@ -3,7 +3,7 @@
 
 ``` bash
 # clone the repo
-$ git clone https://github.com/coreui/coreui-free-react-admin-template.git my-project
+$ git clone https://github.com/medamine1/To-do-List-ReactJS.git my-project
 
 # go into app's directory
 $ cd my-project
