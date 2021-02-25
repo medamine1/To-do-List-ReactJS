@@ -18,6 +18,7 @@ module.exports = {
     'react',
   ],
   rules: {
+    'linebreak-style': ["error", "windows"],
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
     'import/no-extraneous-dependencies': 0,
     'object-property-newline': 0,
