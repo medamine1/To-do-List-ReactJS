@@ -185,9 +185,8 @@ export default function TableToDo() {
                 <th>#</th>
                 <th>Name of task</th>
                 <th>Description</th>
-                <th />
-                <th>Actions</th>
                 <th>Is completed</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -201,12 +200,18 @@ export default function TableToDo() {
                     {input.desc}
                   </td>
                   <td>
-                    {' '}
-                    <Button onClick={() => edit(index)} size="sm">Edit</Button>
+                    {
+                      input.isCompleted
+                        ? <Badge color="success">completed</Badge>
+                        : <Badge color="danger">not completed</Badge>
+                    }
                   </td>
                   <td>
                     <Row>
-                      <Col>
+                      <Col xs="1" sm="1" md="1" lg="1" xl="1">
+                        <Button onClick={() => edit(index)} size="sm" className="mr-1">Edit</Button>
+                      </Col>
+                      <Col xs="11" sm="11" md="11" lg="11" xl="11">
                         <div
                           style={{ display: `${allValues.isEditable !== index ? 'none' : 'block'}` }}
                         >
@@ -262,13 +267,7 @@ export default function TableToDo() {
                       </Col>
                     </Row>
                   </td>
-                  <td>
-                    {
-                      input.isCompleted
-                        ? <Badge color="success">completed</Badge>
-                        : <Badge color="danger">not completed</Badge>
-                    }
-                  </td>
+
                 </tr>
               ))}
             </tbody>
