@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable max-len */
 import React from 'react';
 import {
@@ -28,6 +29,8 @@ export default function TableToDo() {
     isEditable: null,
     isCompleted: false,
     isCompletedUpdate: false,
+    newName: null,
+    newDescription: null,
   });
 
   /**
@@ -68,14 +71,14 @@ export default function TableToDo() {
   const updateForm = (e) => {
     e.preventDefault();
     const inputValue = {
-      nom: e.target.nom.value,
-      desc: e.target.description.value,
+      nom: allValues.newName,
+      desc: allValues.newDescription,
       isCompleted: allValues.isCompletedUpdate,
     };
     const newData = [...allValues.data];
     newData[allValues.isEditable] = inputValue;
-    changeHandler({ data: newData });
     localStorage.setItem('data', JSON.stringify(newData));
+    changeHandler({ data: newData, isEditable: null });
   };
 
   /**
@@ -94,9 +97,19 @@ export default function TableToDo() {
    */
   const edit = (index) => {
     if (index === allValues.isEditable) {
-      changeHandler({ isEditable: null });
+      changeHandler({
+        isEditable: null,
+        newName: null,
+        newDescription: null,
+        isCompletedUpdate: null,
+      });
     } else {
-      changeHandler({ isEditable: index });
+      changeHandler({
+        isEditable: index,
+        newName: allValues.data[index].nom,
+        newDescription: allValues.data[index].desc,
+        isCompletedUpdate: allValues.data[index].isCompleted,
+      });
     }
   };
 
@@ -172,6 +185,7 @@ export default function TableToDo() {
                 <th>#</th>
                 <th>Name of task</th>
                 <th>Description</th>
+                <th />
                 <th>Actions</th>
                 <th>Is completed</th>
               </tr>
@@ -187,10 +201,11 @@ export default function TableToDo() {
                     {input.desc}
                   </td>
                   <td>
+                    {' '}
+                    <Button onClick={() => edit(index)} size="sm">Edit</Button>
+                  </td>
+                  <td>
                     <Row>
-                      <Col xs="1" sm="1" md="1" lg="1" xl="1">
-                        <Button onClick={() => edit(index)} type="button" size="sm">Edit</Button>
-                      </Col>
                       <Col>
                         <div
                           style={{ display: `${allValues.isEditable !== index ? 'none' : 'block'}` }}
@@ -204,6 +219,8 @@ export default function TableToDo() {
                                   id="nom"
                                   size="sm"
                                   placeholder="Name"
+                                  value={allValues.newName}
+                                  onChange={(event) => changeHandler({ newName: event.target.value })}
                                 />
                               </Col>
                               <Col xs="3" sm="3" md="3" lg="3" xl="3">
@@ -213,6 +230,8 @@ export default function TableToDo() {
                                   name="description"
                                   id="description"
                                   placeholder="Description"
+                                  value={allValues.newDescription}
+                                  onChange={(event) => changeHandler({ newDescription: event.target.value })}
                                 />
                               </Col>
                               <Col xs="3" sm="3" md="3" lg="3" xl="3">
@@ -222,7 +241,7 @@ export default function TableToDo() {
                                       type="checkbox"
                                       name="radioIsCompleted"
                                       checked={allValues.isCompletedUpdate}
-                                      onChange={() => changeHandler({ isCompletedUpdate: !allValues.isCompleted })}
+                                      onChange={() => changeHandler({ isCompletedUpdate: !allValues.isCompletedUpdate })}
                                     />
                                     {' '}
                                     Task is completed
